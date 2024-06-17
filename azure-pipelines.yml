@@ -1,0 +1,434 @@
+trigger:
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: dotnet restore 
+  inputs:
+    command: 'restore'
+    projects: 'src/CXI.Common/CXI.Common.sln'
+    feedsToUse: 'select'
+    vstsFeed: '7744d0ac-6bc1-4039-b0b8-2543d12c2f99/bd556fee-e25e-4028-b725-eb2949647238'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build $(buildConfiguration)'
+  inputs:
+    command: 'build'
+    projects: 'src/CXI.Common/CXI.Common.sln'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common/CXI.Common.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.ExceptionHandling
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.ExceptionHandling/CXI.Common.ExceptionHandling.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.MessageBrokers
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.MessageBrokers/CXI.Common.MessageBrokers.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.Repositories
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.Repositories/CXI.Common.Repositories.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'  
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.Security
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.Security/CXI.Common.Security.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'      
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.Storage
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.Storage/CXI.Common.Storage.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'      
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.Utilities
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.Utilities/CXI.Common.Utilities.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'       
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.MessageBroker.Messages
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.DataInjestion.MessageBroker.Entities/CXI.MessageBroker.Messages.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'  
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.MongoDb
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.MongoDb/CXI.Common.MongoDb.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'    
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.Clients.Toast
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.Clients.Toast/CXI.Common.Clients.Toast.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.ApplicationInsights.WorkerService
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.ApplicationInsights.WorkerService/CXI.ApplicationInsights.WorkerService.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.AzureDevOps
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.AzureDevOps/CXI.Common.AzureDevOps.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.AzureDataFactory
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.AzureDataFactory/CXI.Common.AzureDataFactory.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.Onboarding
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.Onboarding/CXI.Contracts.Onboarding.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'      
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.PartnerProfile
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.PartnerProfile/CXI.Contracts.PartnerProfile.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'      
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.POSProfile
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.POSProfile/CXI.Contracts.PosProfile.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'      
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.SegmentConfiguration
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.SegmentConfiguration/CXI.Contracts.SegmentConfiguration.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'      
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.UserProfile
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.UserProfile/CXI.Contracts.UserProfile.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'       
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.TMI
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.TMI/CXI.Contracts.TMI.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'      
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.Segments
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.Segments/CXI.Contracts.Segments.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'      
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.Audiences
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.Audiences/CXI.Contracts.Audiences.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'    
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.AudienceQueryBuilder
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.AudienceQueryBuilder/CXI.Contracts.AudienceQueryBuilder.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'        
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.TransactionalInsights
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.TransactionalInsights/CXI.Contracts.TransactionalInsights.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.ApplicationInsights
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.ApplicationInsights/CXI.Common.ApplicationInsights.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.Subscription
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.Subscription/CXI.Contracts.Subscription.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.LicenseAgreement
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.LicenseAgreement/CXI.Contracts.LicenseAgreement.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'    
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.MLI
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.MLI/CXI.Contracts.MLI.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.MenuLevelConfiguration
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.MenuLevelConfiguration/CXI.Contracts.MenuLevelConfiguration.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.PartnerTheming
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.PartnerTheming/CXI.Contracts.PartnerTheming.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.SpecialEvents
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.SpecialEvents/CXI.Contracts.SpecialEvents.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off' 
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.CDI
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.CDI/CXI.Contracts.CDI.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Common.AuditLog
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Common.AuditLog/CXI.Common.AuditLog.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.AuditLog
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.AuditLog/CXI.Contracts.AuditLog.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'   
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.AuditLogReport
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.AuditLogReport/CXI.Contracts.AuditLogReport.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off' 
+
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.AudienceInsights
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.AudienceInsights/CXI.Contracts.AudienceInsights.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'    
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.MediaPlanning
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.MediaPlanning/CXI.Contracts.MediaPlanning.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off' 
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.OverviewDashboard
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.OverviewDashboard/CXI.Contracts.OverviewDashboard.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off' 
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.EnhancedQueryBuilder
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.EnhancedQueryBuilder/CXI.Contracts.EnhancedQueryBuilder.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.AppConfigAndSecret
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.AppConfigAndSecret/CXI.Contracts.AppConfigAndSecret.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack CXI.Contracts.Reports
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CXI.Common/CXI.Contracts.Reports/CXI.Contracts.Reports.csproj'
+    configuration: '$(buildConfiguration)'
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'    
+
+- task: NuGetCommand@2
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) 
+  displayName: dotnet push
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '7744d0ac-6bc1-4039-b0b8-2543d12c2f99/bd556fee-e25e-4028-b725-eb2949647238'
+    allowPackageConflicts: true
