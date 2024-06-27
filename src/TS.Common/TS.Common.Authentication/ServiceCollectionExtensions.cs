@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TS.Common.Authentication.Config;
@@ -23,5 +24,41 @@ namespace TS.Common.Authentication
 
             return services;
         }
-    }
+
+        /// <summary>
+        /// Add JWT Authentication to access the resource
+        /// </summary>
+        /// <param name="services">Services</param>
+        /// <param name="configuration">Configuration</param>
+        /// <param name="logger">Logger</param>
+        /// <returns></returns>
+        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration, ILogger logger)
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = configuration[Constants.JwtIssuer],
+                ValidAudiences = configuration.GetSection(Constants.JwtAudience).Get<List<string>>(),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[Constants.JwtKey]))
+            };
+
+            options.Events = new JwtBearerEvents
+            {
+                OnAuthenticationFailed = afc =>
+                {
+                    logger.LogError(afc?.Exception?.Message);
+                    return Task.CompletedTask;
+                }
+            };
+        });
+            return services;
+        }
+    
+}
 }
