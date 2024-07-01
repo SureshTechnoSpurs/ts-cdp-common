@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace TS.Common.Authentication.Config
@@ -50,6 +51,9 @@ namespace TS.Common.Authentication.Config
         //"auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
         //"client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/your-service-account-email@your-project-id.iam.gserviceaccount.com"
 
-
+        public static string ToJson(GcpConfiguration config)
+        {
+            return JsonConvert.SerializeObject(config, Formatting.Indented);
+        }
     }
 }
