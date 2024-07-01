@@ -12,6 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Google.Cloud.SecretManager.V1" Version="2.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
@@ -23,7 +24,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\TS.Common\TS.Common.csproj" />
+		<Folder Include="Helper\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\TS.Common\TS.Common.csproj" />
 	</ItemGroup>
 
 </Project>

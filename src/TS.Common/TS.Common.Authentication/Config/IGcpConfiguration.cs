@@ -39,5 +39,8 @@ namespace TS.Common.Authentication.Config
 
         [JsonProperty("client_x509_cert_url")]
         public string ClientX509CertUrl { get; set; }
+
+        string ToJson(GcpConfiguration config);
+        GcpConfiguration GetDummyConfiguration();
     }
 }

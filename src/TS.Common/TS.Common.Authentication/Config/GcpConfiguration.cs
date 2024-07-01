@@ -51,9 +51,26 @@ namespace TS.Common.Authentication.Config
         //"auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
         //"client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/your-service-account-email@your-project-id.iam.gserviceaccount.com"
 
-        public static string ToJson(GcpConfiguration config)
+        public string ToJson(GcpConfiguration config)
         {
             return JsonConvert.SerializeObject(config, Formatting.Indented);
+        }
+
+        public GcpConfiguration GetDummyConfiguration()
+        {
+            return new GcpConfiguration
+            {
+                Type = "service_account",
+                ProjectId = "customerxi",
+                PrivateKeyId = "8827adf774de5f5c963008f93ae411923b20e0a5",
+                PrivateKey = "-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY\n-----END PRIVATE KEY-----\n", // Replace with actual private key (avoid storing in code)
+                ClientEmail = "cxi-service-account@customerxi.iam.gserviceaccount.com",
+                ClientId = "104491185396668982740",
+                AuthUri = "https://accounts.google.com/o/oauth2/auth",
+                TokenUri = "https://oauth2.googleapis.com/token",
+                AuthProviderX509CertUrl = "https://www.googleapis.com/oauth2/v1/certs",
+                ClientX509CertUrl = "https://www.googleapis.com/robot/v1/metadata/x509/your-service-account-email@your-project-id.iam.gserviceaccount.com"
+            };
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace TS.Common
+﻿namespace TS.Common.Constants
 {
-    public class Constants
+    public static class Auth
     {
         public const string JwtIssuer = "Jwt:Issuer";
         public const string JwtAudience = "Jwt:Audiences";
