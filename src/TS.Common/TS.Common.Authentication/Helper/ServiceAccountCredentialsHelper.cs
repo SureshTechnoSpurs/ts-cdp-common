@@ -1,36 +1,29 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using TS.Common.Authentication.Config;
 using TS.Common.Constants;
 
-namespace TS.Common.Authentication
+namespace TS.Common.Authentication.Helper
 {
-    public class AuthenticationClient : IAuthenticationClient
+    public class ServiceAccountCredentialsHelper
     {
-        public AuthenticationClient()
-        {
-        }
-
+        private readonly ServiceAccountCredential _serviceAccountCredential;
+        private readonly string _ServiceAccountAudience;
+        private readonly IAuthenticationClient _authenticationClient;
         private readonly IGcpConfiguration _gcpConfiguration;
-        public AuthenticationClient(IGcpConfiguration configuration)
+
+        public ServiceAccountCredentialsHelper(IAuthenticationClient authenticationClient, IGcpConfiguration gcpConfiguration)
         {
-            _gcpConfiguration = configuration;
-        }
-        public async Task<GoogleCredential> GetCredentialAsync()
-        {
-            var config = _gcpConfiguration.GetDummyConfiguration();
-            string inputJson = _gcpConfiguration.ToJson(config);
-
-            // Load GoogleCredentials from a service account key file
-            var googleCredential = GoogleCredential.FromJson(inputJson);
-
-            return googleCredential;
-
+            _authenticationClient = authenticationClient;
+            _gcpConfiguration = gcpConfiguration;
+            //_serviceAccountCredential = ServiceAccountCredential.FromServiceAccountData(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)));
+            _ServiceAccountAudience = "https://www.googleapis.com/oauth2/v4/token";
         }
 
         public async Task<string> GenerateJwtToken()
@@ -38,14 +31,14 @@ namespace TS.Common.Authentication
             var now = DateTime.UtcNow;
             var payload = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Iss, _gcpConfiguration.ClientEmail),
-            new Claim(JwtRegisteredClaimNames.Sub, _gcpConfiguration.ClientEmail),
-            new Claim(JwtRegisteredClaimNames.Aud, ServiceAccount.Audience),
+            new Claim(JwtRegisteredClaimNames.Iss, _serviceAccountCredential.Id),
+            new Claim(JwtRegisteredClaimNames.Sub, _serviceAccountCredential.Id),
+            new Claim(JwtRegisteredClaimNames.Aud, _ServiceAccountAudience),
             new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(now.AddHours(1)).ToUnixTimeSeconds().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUnixTimeSeconds().ToString())
         };
 
-            //var googleCredentials = await GetCredentialAsync();
+            var googleCredentials = await _authenticationClient.GetCredentialAsync();
 
             using var rsa = RSA.Create();
             rsa.ImportFromPem(_gcpConfiguration.PrivateKey.ToCharArray());

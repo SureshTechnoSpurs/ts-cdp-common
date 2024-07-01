@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TS.Common.Authentication.Config;
+using TS.Common.Constants;
 
 namespace TS.Common.Authentication
 {
@@ -43,9 +44,9 @@ namespace TS.Common.Authentication
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = configuration[Constants.JwtIssuer],
-                ValidAudiences = configuration.GetSection(Constants.JwtAudience).Get<List<string>>(),
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[Constants.JwtKey]))
+                ValidIssuer = configuration[Auth.JwtIssuer],
+                ValidAudiences = configuration.GetSection(Auth.JwtAudience).Get<List<string>>(),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[Auth.JwtKey]))
             };
 
             options.Events = new JwtBearerEvents
@@ -59,6 +60,6 @@ namespace TS.Common.Authentication
         });
             return services;
         }
-    
-}
+
+    }
 }
