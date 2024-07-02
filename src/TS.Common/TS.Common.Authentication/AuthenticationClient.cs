@@ -7,6 +7,12 @@ using System;
 using System.Threading.Tasks;
 using TS.Common.Authentication.Config;
 using TS.Common.Constants;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+using Google.Cloud.SecretManager.V1;
+using TS.Common.Helper;
 
 namespace TS.Common.Authentication
 {
@@ -66,5 +72,40 @@ namespace TS.Common.Authentication
 
             return jwtToken;
         }
+
+        public string GenerateToken(IEnumerable<string> roles = null, string secretVersion = "")
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var secret = SecretManagerHelper.GetSecret(secretVersion);
+
+            var key = Encoding.ASCII.GetBytes(secret);
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, "id from input"),
+                new Claim(ClaimTypes.Name, "email from input")
+            };
+
+            if (roles != null)
+            {
+                claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+            }
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var encryptedToken = tokenHandler.WriteToken(token);
+
+            return encryptedToken;
+        }
     }
 }
+
