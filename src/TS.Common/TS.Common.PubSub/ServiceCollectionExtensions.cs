@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TS.Common.Authentication;
+using TS.Common.PubSub.Messaging;
+using TS.Common.PubSub.Publisher;
 
 namespace TS.Common.PubSub
 {
@@ -17,7 +19,9 @@ namespace TS.Common.PubSub
         public static IServiceCollection AddPubSubClient(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthenticationClient(configuration);
-            services.AddTransient<IPubSubClient, PubSubClient>();
+            //services.AddTransient<IPubSubClient, PubSubClient>();
+            services.AddSingleton<IPublisher, PubSubPublisher>();
+            services.AddSingleton<ISerializer, JsonSerializer>();
 
             return services;
         }

@@ -21,41 +21,41 @@ namespace TS.Common.Security
             });
         }
 
-        public static IHostBuilder AddGcpSecretManagerConfiguration(this IHostBuilder hostBuilder, string secretVersion, string projectId, string firestoreCollection, string firestoreDocument)
-        {
-            return hostBuilder.ConfigureAppConfiguration((hostingContext, config) =>
-            {
-                var firestoreHelper = new FirestoreHelper(projectId);
-                var secret = SecretManagerHelper.GetSecret(secretVersion);
+        //public static IHostBuilder AddGcpSecretManagerConfiguration(this IHostBuilder hostBuilder, string secretVersion, string projectId, string firestoreCollection, string firestoreDocument)
+        //{
+        //    return hostBuilder.ConfigureAppConfiguration((hostingContext, config) =>
+        //    {
+        //        var firestoreHelper = new FirestoreHelper(projectId);
+        //        var secret = SecretManagerHelper.GetSecret(secretVersion);
 
-                // Add the secret to configuration
-                var secretConfig = new Dictionary<string, string>
-                {
-                    { "SecretConfig", secret }
-                };
+        //        // Add the secret to configuration
+        //        var secretConfig = new Dictionary<string, string>
+        //        {
+        //            { "SecretConfig", secret }
+        //        };
 
-                // Add the secret to the configuration builder
-                config.AddInMemoryCollection(secretConfig);
+        //        // Add the secret to the configuration builder
+        //        config.AddInMemoryCollection(secretConfig);
 
-            });
-        }
+        //    });
+        //}
 
         public static IHostBuilder AddGcpSecretAndConfiguration(this IHostBuilder hostBuilder, string secretVersion, string projectId, string firestoreCollection, string firestoreDocument)
         {
             return hostBuilder.ConfigureAppConfiguration((hostingContext, config) =>
             {
                 var firestoreHelper = new FirestoreHelper(projectId);
-                var secret = SecretManagerHelper.GetSecret(secretVersion);
+                //var secret = SecretManagerHelper.GetSecret(secretVersion);
 
-                // Add the secret to configuration
-                var secretConfig = new Dictionary<string, string>
-                {
-                    { "SecretConfig", secret }
-                };
+                //// Add the secret to configuration
+                //var secretConfig = new Dictionary<string, string>
+                //{
+                //    { "SecretConfig", secret }
+                //};
 
 
                 // Add the secret to the configuration builder
-                config.AddInMemoryCollection(secretConfig);
+                //config.AddInMemoryCollection(secretConfig);
 
                 // Load configuration from Firestore
                 var firestoreTask = firestoreHelper.GetConfigurationAsync(firestoreCollection, firestoreDocument);
